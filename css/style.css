@@ -1,0 +1,245 @@
+/* ===== RESET ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* ===== BASE ===== */
+body {
+    font-family: "Inter", "Segoe UI", sans-serif;
+    background-color: #f5f7fa;
+    color: #1f2937;
+    line-height: 1.6;
+}
+
+/* ===== LAYOUT ===== */
+.container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 25px;
+}
+
+/* ===== HEADER ===== */
+.header {
+    background: #ffffff;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.header-content {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+}
+
+.header-left {
+    justify-self: start;
+}
+
+.header-right {
+    justify-self: end;
+}
+
+.header-title {
+    justify-self: center;
+    font-size: 26px;
+    font-weight: 600;
+}
+
+.header h1 {
+    font-size: 26px;
+    font-weight: 600;
+}
+
+/* ===== BUTTON ===== */
+.primary-btn {
+    background-color: #1d4ed8;
+    color: #ffffff;
+    padding: 10px 18px;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: 500;
+    transition: background 0.2s;
+}
+
+.primary-btn:hover {
+    background-color: #1e40af;
+}
+
+/* ===== FILTER PANEL ===== */
+.filter-panel {
+    background: #ffffff;
+    border-radius: 8px;
+    padding: 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 15px;
+    margin: 30px 0;
+    border: 1px solid #e5e7eb;
+}
+
+.filter-panel input,
+.filter-panel select {
+    padding: 12px;
+    border-radius: 6px;
+    border: 1px solid #d1d5db;
+    font-size: 14px;
+}
+
+/* ===== GRID ===== */
+.property-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+}
+
+/* ===== CARD ===== */
+.card {
+    background: #ffffff;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid #e5e7eb;
+    transition: box-shadow 0.2s;
+}
+
+.card:hover {
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+}
+
+.card img {
+    width: 100%;
+    height: 190px;
+    object-fit: cover;
+}
+
+/* ===== CARD CONTENT ===== */
+.card-content {
+    padding: 16px;
+}
+
+.card h3 {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 6px;
+}
+
+.card p {
+    font-size: 14px;
+    color: #4b5563;
+    margin-bottom: 4px;
+}
+
+/* ===== PRICE ===== */
+.price {
+    font-size: 18px;
+    font-weight: 600;
+    color: #111827;
+    margin-top: 10px;
+}
+
+/* ===== ACTIONS ===== */
+.actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 14px;
+}
+
+.actions a {
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+}
+
+.edit {
+    color: #1d4ed8;
+}
+
+.delete {
+    color: #b91c1c;
+}
+
+/* ===== FORM CARD ===== */
+.form-card {
+    max-width: 520px;
+    margin: 40px auto;
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 10px;
+    border: 1px solid #e5e7eb;
+}
+
+/* ===== FORM ===== */
+.property-form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 6px;
+    color: #374151;
+}
+
+.form-group input,
+.form-group select {
+    padding: 12px;
+    border-radius: 6px;
+    border: 1px solid #d1d5db;
+    font-size: 14px;
+}
+
+/* ===== FORM ACTIONS ===== */
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 10px;
+}
+
+/* ===== SECONDARY BUTTON ===== */
+.secondary-btn {
+    padding: 10px 16px;
+    border-radius: 6px;
+    background: #e5e7eb;
+    color: #111827;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.secondary-btn:hover {
+    background: #d1d5db;
+}
+/* ===== AUTOCOMPLETE ===== */
+.autocomplete {
+    position: relative;
+}
+
+.autocomplete-list {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-top: none;
+    z-index: 1000;
+    max-height: 180px;
+    overflow-y: auto;
+}
+
+.autocomplete-item {
+    padding: 10px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.autocomplete-item:hover {
+    background: #f3f4f6;
+}
