@@ -40,8 +40,217 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register</title>
     <link rel="stylesheet" href="css/style.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .form-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 40px;
+            width: 100%;
+            max-width: 400px;
+            animation: slideUp 0.3s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .form-card h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 28px;
+            font-weight: 600;
+        }
+
+        .role-selection {
+            margin-bottom: 25px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border: 1px solid #e0e0e0;
+        }
+
+        .role-selection label {
+            display: inline-block;
+            margin-right: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            color: #555;
+            user-select: none;
+        }
+
+        .role-selection label:hover {
+            color: #667eea;
+        }
+
+        .role-selection input[type="radio"] {
+            margin-right: 8px;
+            cursor: pointer;
+            accent-color: #667eea;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        form input[type="text"],
+        form input[type="password"] {
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: inherit;
+            transition: all 0.3s ease;
+        }
+
+        form input[type="text"]:focus,
+        form input[type="password"]:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        form input::placeholder {
+            color: #999;
+        }
+
+        .primary-btn {
+            padding: 12px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .primary-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .primary-btn:active {
+            transform: translateY(0);
+        }
+
+        .error-message {
+            padding: 12px 15px;
+            background-color: #fee;
+            color: #c33;
+            border: 1px solid #fcc;
+            border-radius: 8px;
+            font-size: 14px;
+            margin-top: 10px;
+            animation: shake 0.3s ease-in-out;
+        }
+
+        .success-message {
+            padding: 12px 15px;
+            background-color: #efe;
+            color: #3a3;
+            border: 1px solid #cfc;
+            border-radius: 8px;
+            font-size: 14px;
+            margin-top: 10px;
+            animation: slideDown 0.3s ease-out;
+        }
+
+        .success-message a {
+            color: #3a3;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .success-message a:hover {
+            text-decoration: underline;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .form-card p {
+            text-align: center;
+            margin-top: 20px;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .form-card a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .form-card a:hover {
+            color: #764ba2;
+            text-decoration: underline;
+        }
+
+        @media (max-width: 480px) {
+            .form-card {
+                padding: 30px 20px;
+            }
+
+            .form-card h2 {
+                font-size: 24px;
+                margin-bottom: 25px;
+            }
+
+            .role-selection label {
+                display: block;
+                margin-bottom: 12px;
+                margin-right: 0;
+            }
+        }
+    </style>
 </head>
 <body>
 <div class="form-card">
@@ -61,37 +270,18 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     
     <form method="post">
         <input type="hidden" name="register_type" id="register_type" value="user">
-        <input name="username" placeholder="Username" required>
+        <input type="text" name="username" placeholder="Username" required>
         <input type="password" name="password" placeholder="Password" required>
-        <button class="primary-btn">Register</button>
+        <button type="submit" class="primary-btn">Register</button>
         <?php if ($error): ?>
-            <p style="color:red;"><?= htmlspecialchars($error) ?></p>
+            <p class="error-message"><?= htmlspecialchars($error) ?></p>
         <?php endif; ?>
         <?php if ($success): ?>
-            <p style="color:green;"><?= $success ?></p>
+            <p class="success-message"><?= $success ?></p>
         <?php endif; ?>
     </form>
     <p>Already have an account? <a href="login.php">Login</a></p>
 </div>
 
-<style>
-.role-selection {
-    margin-bottom: 20px;
-    padding: 15px;
-    background: #f5f5f5;
-    border-radius: 8px;
-}
-
-.role-selection label {
-    display: inline-block;
-    margin-right: 20px;
-    cursor: pointer;
-}
-
-.role-selection input[type="radio"] {
-    margin-right: 8px;
-    cursor: pointer;
-}
-</style>
 </body>
 </html>

@@ -47,4 +47,9 @@ function loadData() {
         });
 }
 
+/* ===== VIEW PROPERTY DETAILS ===== */
+function viewProperty(propertyId) {
+    window.location.href = `property-details.php?id=${propertyId}`;
+}
+
 loadData();

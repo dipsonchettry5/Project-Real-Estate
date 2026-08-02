@@ -39,7 +39,7 @@ while ($row = $stmt->fetch()) {
     $id       = intval($row['id']);
 
     echo "
-    <div class='card'>
+    <div class='card' onclick=\"viewProperty({$id})\" style='cursor: pointer;'>
         <img src='uploads/{$image}' alt='{$title}'>
         <div class='card-content'>
             <h3>{$title}</h3>
@@ -50,8 +50,13 @@ while ($row = $stmt->fetch()) {
     if (isset($_SESSION["user"])) {
         echo "
             <div class='actions'>
-                <a class='edit' href='edit.php?id={$id}'>Edit</a>
-                <a class='delete' href='delete.php?id={$id}'>Delete</a>
+                <a class='edit' href='edit.php?id={$id}' onclick='event.stopPropagation();'>Edit</a>
+                <a class='delete' href='delete.php?id={$id}' onclick='event.stopPropagation();'>Delete</a>
+            </div>";
+    } else {
+        echo "
+            <div style='text-align: center; margin-top: 10px;'>
+                <a class='view-details-btn' href='property-details.php?id={$id}' onclick='event.stopPropagation();' style='display: inline-block; background: #667eea; color: white; padding: 8px 20px; border-radius: 5px; text-decoration: none; font-size: 14px; font-weight: bold;'>View Details</a>
             </div>";
     }
 
@@ -59,3 +64,5 @@ while ($row = $stmt->fetch()) {
         </div>
     </div>";
 }
+?>
+
