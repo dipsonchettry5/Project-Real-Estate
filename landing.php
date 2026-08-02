@@ -3,7 +3,7 @@
 <html>
 <head>
     <title>Real Estate Management System</title>
-    <link rel="stylesheet" href="lande.css">
+    <link rel="stylesheet" href="landing.css">
 </head>
 <body>
 

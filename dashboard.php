@@ -10,7 +10,7 @@
 <header class="hero">
 
     <nav class="navbar">
-        <div class="logo">🏠 RealEstatePro</div>
+        <div class="logo">🏠 RealEstatePro</div>get 
 
         <div class="nav-links">
             <a href="index.php">Properties</a>
