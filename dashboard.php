@@ -3,14 +3,14 @@
 <html>
 <head>
     <title>Real Estate Management System</title>
-    <link rel="stylesheet" href="lande.css">
+    <link rel="stylesheet" href="landing.css">
 </head>
 <body>
 
 <header class="hero">
 
     <nav class="navbar">
-        <div class="logo">🏠 RealEstatePro</div>get 
+        <div class="logo"> RealEstatePro</div>
 
         <div class="nav-links">
             <a href="index.php">Properties</a>
@@ -64,22 +64,6 @@
 
 </section>
 
-<section class="stats">
-
-    <div class="stat-card">
-        <h2>500+</h2>
-        <p>Properties</p>
-    </div>
-
-    <div class="stat-card">
-        <h2>200+</h2>
-        <p>Users</p>
-    </div>
-
-    <div class="stat-card">
-        <h2>100+</h2>
-        <p>Locations</p>
-    </div>
 
 </section>
 

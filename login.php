@@ -12,11 +12,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $u = $stmt->fetch();
 
     if ($u && password_verify($_POST["password"], $u["password"])) {
-        $_SESSION["user"] = $u["username"];
+        $_SESSION["username"] = $u["username"];
         $_SESSION["role"] = $u["role"];
+        $_SESSION["user_id"] = $u["id"];
         
         if ($u["role"] === "admin") {
-            header("Location: dashboard.php");
+            header("Location: admin.php");
         } else {
             header("Location: index.php");
         }

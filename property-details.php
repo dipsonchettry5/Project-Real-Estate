@@ -310,7 +310,7 @@ $createdAt = date("F j, Y", strtotime($property['created_at']));
             </div>
 
             <div class="action-buttons">
-                <button class="btn-contact" onclick="contactAgent()">Contact Agent</button>
+               
                 <button class="btn-favorite" onclick="toggleFavorite()">♥ Add to Favorites</button>
             </div>
 
@@ -340,9 +340,7 @@ $createdAt = date("F j, Y", strtotime($property['created_at']));
 </main>
 
 <script>
-    function contactAgent() {
-        alert('Contact form functionality can be implemented here. Agent will be notified of your inquiry.');
-    }
+   
 
     function toggleFavorite() {
         const btn = event.target;
