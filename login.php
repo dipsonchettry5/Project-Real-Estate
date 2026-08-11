@@ -116,7 +116,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         form input[type="password"] {
             padding: 12px 15px;
             border: 2px solid #e0e0e0;
-            border-radius: 8px;
+            border-radius: 8px; 
             font-size: 14px;
             font-family: inherit;
             transition: all 0.3s ease;
@@ -125,7 +125,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         form input[type="text"]:focus,
         form input[type="password"]:focus {
             outline: none;
-            border-color: #667eea;
+            border-color: #f6f6fa;
             box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
         }
 

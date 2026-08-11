@@ -56,7 +56,7 @@ while ($row = $stmt->fetch()) {
     } else {
         echo "
             <div style='text-align: center; margin-top: 10px;'>
-                <a class='view-details-btn' href='property-details.php?id={$id}' onclick='event.stopPropagation();' style='display: inline-block; background: #667eea; color: white; padding: 8px 20px; border-radius: 5px; text-decoration: none; font-size: 14px; font-weight: bold;'>View Details</a>
+                <a class='view-details-btn' href='details.php?id={$id}' onclick='event.stopPropagation();' style='display: inline-block; background: #667eea; color: white; padding: 8px 20px; border-radius: 5px; text-decoration: none; font-size: 14px; font-weight: bold;'>View Details</a>
             </div>";
     }
 

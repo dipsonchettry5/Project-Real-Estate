@@ -1,4 +1,4 @@
-git a<?php
+<?php
 session_start();
 require "config.php";
 
@@ -29,6 +29,15 @@ $type = htmlspecialchars($property['type']);
 $price = number_format($property['price']);
 $image = htmlspecialchars($property['image']);
 $createdAt = date("F j, Y", strtotime($property['created_at']));
+
+// Inquiry flash data (set by send_inquiry.php)
+$inquirySuccess = $_SESSION['inquiry_success'] ?? null;
+$inquiryErrors  = $_SESSION['inquiry_errors'] ?? [];
+$inquiryOld     = $_SESSION['inquiry_old'] ?? ['name' => '', 'email' => '', 'phone' => '', 'message' => ''];
+unset($_SESSION['inquiry_success'], $_SESSION['inquiry_errors'], $_SESSION['inquiry_old']);
+
+// Reopen the modal automatically if the last submission had errors
+$reopenModal = !empty($inquiryErrors) ? 'true' : 'false';
 ?>
 
 <!DOCTYPE html>
@@ -256,6 +265,136 @@ $createdAt = date("F j, Y", strtotime($property['created_at']));
                 min-width: 100%;
             }
         }
+
+        /* Inquiry modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.55);
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            padding: 20px;
+        }
+
+        .modal-overlay.open {
+            display: flex;
+        }
+
+        .modal-box {
+            background: white;
+            width: 100%;
+            max-width: 480px;
+            border-radius: 10px;
+            padding: 30px;
+            position: relative;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 14px;
+            right: 18px;
+            background: none;
+            border: none;
+            font-size: 22px;
+            line-height: 1;
+            cursor: pointer;
+            color: #999;
+        }
+
+        .modal-close:hover {
+            color: #333;
+        }
+
+        .modal-box h2 {
+            margin: 0 0 6px 0;
+            font-size: 22px;
+            color: #333;
+        }
+
+        .modal-subtitle {
+            font-size: 14px;
+            color: #888;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: #555;
+            margin-bottom: 6px;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            font-family: inherit;
+            box-sizing: border-box;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 90px;
+        }
+
+        .btn-submit-inquiry {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .btn-submit-inquiry:hover {
+            opacity: 0.92;
+        }
+
+        .flash-success {
+            background: #e7f7ea;
+            border: 1px solid #4CAF50;
+            color: #2e7d32;
+            padding: 14px 18px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        .flash-errors {
+            background: #fdecea;
+            border: 1px solid #f44336;
+            color: #c62828;
+            padding: 14px 18px;
+            border-radius: 6px;
+            margin-bottom: 16px;
+            font-size: 14px;
+        }
+
+        .flash-errors ul {
+            margin: 6px 0 0 18px;
+            padding: 0;
+        }
     </style>
 </head>
 <body>
@@ -282,6 +421,13 @@ $createdAt = date("F j, Y", strtotime($property['created_at']));
 
 <main class="container">
     <div class="details-container">
+
+        <?php if ($inquirySuccess): ?>
+            <div class="flash-success" style="margin: 20px 40px 0 40px;">
+                <?php echo htmlspecialchars($inquirySuccess); ?>
+            </div>
+        <?php endif; ?>
+
         <div class="details-header">
             <img src="uploads/<?php echo $image; ?>" alt="<?php echo $title; ?>">
             <a href="index.php" class="back-button">← Back to Listings</a>
@@ -310,12 +456,8 @@ $createdAt = date("F j, Y", strtotime($property['created_at']));
             </div>
 
             <div class="action-buttons">
-               
+                <button class="btn-contact" onclick="openInquiryModal()">✉ Send Inquiry</button>
                 <button class="btn-favorite" onclick="toggleFavorite()">♥ Add to Favorites</button>
-            </div>
-            <div class="action-buttons">
-               
-                <a class="btn-favorite" href="details.php?id=<?php echo $id; ?>">Send Inquiry</a>
             </div>
 
             <?php if (isset($_SESSION["user"])): ?>
@@ -343,8 +485,74 @@ $createdAt = date("F j, Y", strtotime($property['created_at']));
     </div>
 </main>
 
+<!-- Send Inquiry Modal -->
+<div class="modal-overlay" id="inquiryModal">
+    <div class="modal-box">
+        <button class="modal-close" onclick="closeInquiryModal()">&times;</button>
+        <h2>Send Inquiry</h2>
+        <p class="modal-subtitle"><?php echo $title; ?> — Rs <?php echo $price; ?></p>
+
+        <?php if (!empty($inquiryErrors)): ?>
+            <div class="flash-errors">
+                Please fix the following:
+                <ul>
+                    <?php foreach ($inquiryErrors as $err): ?>
+                        <li><?php echo htmlspecialchars($err); ?></li>
+                    <?php endforeach; ?>
+                </ul>
+            </div>
+        <?php endif; ?>
+
+        <form action="send_inquiry.php" method="POST">
+            <input type="hidden" name="property_id" value="<?php echo $id; ?>">
+
+            <div class="form-group">
+                <label for="inquiry-name">Full Name</label>
+                <input type="text" id="inquiry-name" name="name" required
+                       value="<?php echo htmlspecialchars($inquiryOld['name']); ?>">
+            </div>
+
+            <div class="form-group">
+                <label for="inquiry-email">Email</label>
+                <input type="email" id="inquiry-email" name="email" required
+                       value="<?php echo htmlspecialchars($inquiryOld['email']); ?>">
+            </div>
+
+            <div class="form-group">
+                <label for="inquiry-phone">Phone (optional)</label>
+                <input type="tel" id="inquiry-phone" name="phone"
+                       value="<?php echo htmlspecialchars($inquiryOld['phone']); ?>">
+            </div>
+
+            <div class="form-group">
+                <label for="inquiry-message">Message</label>
+                <textarea id="inquiry-message" name="message" required
+                          placeholder="I'm interested in this property..."><?php echo htmlspecialchars($inquiryOld['message']); ?></textarea>
+            </div>
+
+            <button type="submit" class="btn-submit-inquiry">Send Inquiry</button>
+        </form>
+    </div>
+</div>
+
 <script>
-   
+    function openInquiryModal() {
+        document.getElementById('inquiryModal').classList.add('open');
+    }
+
+    function closeInquiryModal() {
+        document.getElementById('inquiryModal').classList.remove('open');
+    }
+
+    // Close modal when clicking outside the box
+    document.getElementById('inquiryModal').addEventListener('click', function (e) {
+        if (e.target === this) closeInquiryModal();
+    });
+
+    // Reopen modal automatically if the last submission had validation errors
+    if (<?php echo $reopenModal; ?>) {
+        openInquiryModal();
+    }
 
     function toggleFavorite() {
         const btn = event.target;
