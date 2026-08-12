@@ -1,6 +1,4 @@
-/* ============================================
-   REAL ESTATE PRO - Modern Design System
-   ============================================ */
+
 
 :root {
   /* Color Palette - Professional & Warm */
@@ -130,9 +128,9 @@ nav.navbar {
   width: 100%;
 }
 
-/* ============================================
+/* 
    HERO CONTENT
-   ============================================ */
+  */
 
 .hero-content {
   flex: 1;
@@ -163,9 +161,9 @@ nav.navbar {
   line-height: 1.8;
 }
 
-/* ============================================
+/* 
    BUTTONS
-   ============================================ */
+   */
 
 .primary-btn {
   display: inline-block;
@@ -301,9 +299,9 @@ nav.navbar {
   text-transform: uppercase;
 }
 
-/* ============================================
+/* 
    CTA SECTION
-   ============================================ */
+   */
 
 .cta {
   padding: var(--spacing-2xl) var(--spacing-xl);
@@ -320,9 +318,9 @@ nav.navbar {
   letter-spacing: -0.5px;
 }
 
-/* ============================================
+/* 
    FOOTER
-   ============================================ */
+   */
 
 footer.footer {
   background: var(--primary);
@@ -333,9 +331,9 @@ footer.footer {
   border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-/* ============================================
+/* 
    RESPONSIVE DESIGN
-   ============================================ */
+   */
 
 @media (max-width: 768px) {
   nav.navbar {
@@ -373,9 +371,9 @@ footer.footer {
   }
 }
 
-/* ============================================
+/* 
    ACCESSIBILITY & REDUCED MOTION
-   ============================================ */
+    */
 
 @media (prefers-reduced-motion: reduce) {
   * {
@@ -386,9 +384,9 @@ footer.footer {
   }
 }
 
-/* ============================================
+/* 
    PRINT STYLES
-   ============================================ */
+    */
 
 @media print {
   header.hero,

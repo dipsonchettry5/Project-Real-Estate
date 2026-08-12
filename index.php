@@ -14,7 +14,7 @@ require "config.php";
     <div class="container header-content">
 
         <div class="header-left">
-            <?php if (isset($_SESSION["user"])): ?>
+            <?php if (isset($_SESSION["user_id"])): ?>
                 <a href="logout.php" class="secondary-btn">Logout</a>
             <?php else: ?>
                 <a href="login.php" class="secondary-btn">Login</a>
@@ -24,7 +24,7 @@ require "config.php";
         <h1 class="header-title">Real Estate Listings</h1>
 
         <div class="header-right">
-            <?php if (isset($_SESSION["user"])): ?>
+            <?php if (isset($_SESSION["user_id"])): ?>
                 <a href="add.php" class="primary-btn">Add Property</a>
             <?php endif; ?>
         </div>

@@ -2,7 +2,7 @@
 session_start();
 require "config.php";
 
-if (!isset($_SESSION["user"])) {
+if (!isset($_SESSION["user_id"])) {
     header("Location: login.php");
     exit;
 }
@@ -18,6 +18,13 @@ $stmt->execute([$id]);
 $p = $stmt->fetch();
 
 if (!$p) {
+    header("Location: index.php");
+    exit;
+}
+
+$isOwner = (int)$p["user_id"] === (int)$_SESSION["user_id"];
+$isAdmin = ($_SESSION["role"] ?? "") === "admin";
+if (!$isOwner && !$isAdmin) {
     header("Location: index.php");
     exit;
 }

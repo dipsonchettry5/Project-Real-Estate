@@ -47,7 +47,10 @@ while ($row = $stmt->fetch()) {
             <p>{$type}</p>
             <div class='price'>Rs {$price}</div>";
 
-    if (isset($_SESSION["user"])) {
+    $canManage = isset($_SESSION["user_id"]) &&
+        ((int)$row["user_id"] === (int)$_SESSION["user_id"] || ($_SESSION["role"] ?? "") === "admin");
+
+    if ($canManage) {
         echo "
             <div class='actions'>
                 <a class='edit' href='edit.php?id={$id}' onclick='event.stopPropagation();'>Edit</a>

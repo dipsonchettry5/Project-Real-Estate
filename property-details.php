@@ -1,4 +1,4 @@
-git a<?php
+<?php
 session_start();
 require "config.php";
 
@@ -263,7 +263,7 @@ $createdAt = date("F j, Y", strtotime($property['created_at']));
 <header class="header">
     <div class="container header-content">
         <div class="header-left">
-            <?php if (isset($_SESSION["user"])): ?>
+            <?php if (isset($_SESSION["user_id"])): ?>
                 <a href="logout.php" class="secondary-btn">Logout</a>
             <?php else: ?>
                 <a href="login.php" class="secondary-btn">Login</a>
@@ -273,7 +273,7 @@ $createdAt = date("F j, Y", strtotime($property['created_at']));
         <h1 class="header-title">Real Estate Listings</h1>
 
         <div class="header-right">
-            <?php if (isset($_SESSION["user"])): ?>
+            <?php if (isset($_SESSION["user_id"])): ?>
                 <a href="add.php" class="primary-btn">Add Property</a>
             <?php endif; ?>
         </div>
@@ -318,7 +318,7 @@ $createdAt = date("F j, Y", strtotime($property['created_at']));
                 <a class="btn-favorite" href="details.php?id=<?php echo $id; ?>">Send Inquiry</a>
             </div>
 
-            <?php if (isset($_SESSION["user"])): ?>
+            <?php if (isset($_SESSION["user_id"]) && ((int)$property["user_id"] === (int)$_SESSION["user_id"] || ($_SESSION["role"] ?? "") === "admin")): ?>
             <div class="edit-delete-section">
                 <a href="edit.php?id=<?php echo $id; ?>" class="btn-edit">Edit Property</a>
                 <a href="delete.php?id=<?php echo $id; ?>" class="btn-delete" onclick="return confirm('Are you sure you want to delete this property?');">Delete Property</a>

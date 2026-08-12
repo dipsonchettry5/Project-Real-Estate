@@ -2,7 +2,7 @@
 session_start();
 require "config.php";
 
-if (!isset($_SESSION["user"])) {
+if (!isset($_SESSION["user_id"])) {
     header("Location: login.php");
     exit;
 }
@@ -20,21 +20,22 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         if (move_uploaded_file($_FILES["image"]["tmp_name"], $target)) {
             $stmt = $pdo->prepare(
-                "INSERT INTO properties (title, location, price, type, image, bedrooms, bathrooms, land_area, built_area, amenities, description)
-                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
+                "INSERT INTO properties (user_id, title, location, price, type, image, bedrooms, bathrooms, land_area, built_area, amenities, description)
+                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
             );
             $stmt->execute([
+                $_SESSION["user_id"],
                 $_POST["title"],
                 $_POST["location"],
                 $_POST["price"],
                 $_POST["type"],
                 $filename,
-                $_POST["bedrooms"],
-                $_POST["bathrooms"],
-                $_POST["land_area"],
-                $_POST["built_area"],
-                $_POST["amenities"],
-                $_POST["description"]
+                $_POST["bedrooms"] ?: null,
+                $_POST["bathrooms"] ?: null,
+                $_POST["land_area"] ?: null,
+                $_POST["built_area"] ?: null,
+                $_POST["amenities"] ?: null,
+                $_POST["description"] ?: null
             ]);
 
             header("Location: index.php");
