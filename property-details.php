@@ -325,7 +325,7 @@ if (isset($_SESSION["user_id"])) {
             <div class="action-buttons">
                
                 <button class="btn-favorite <?php echo $isFavorited ? 'favorited' : ''; ?>" id="fav-btn-details" onclick="toggleFavoriteDetails(<?php echo $id; ?>)" style="<?php echo $isFavorited ? 'color: #e53e3e; border-color: #feb2b2;' : ''; ?>">
-                    <?php echo $isFavorited ? '❤️ Favorited' : '🤍 Add to Favorites'; ?>
+                    <?php echo $isFavorited ? 'Favorited' : 'Add to Favorites'; ?>
                 </button>
             </div>
             <div class="action-buttons">
@@ -376,12 +376,12 @@ if (isset($_SESSION["user_id"])) {
                     btn.classList.add('favorited');
                     btn.style.color = '#e53e3e';
                     btn.style.borderColor = '#feb2b2';
-                    btn.textContent = '❤️ Favorited';
+                    btn.textContent = 'Favorited';
                 } else {
                     btn.classList.remove('favorited');
                     btn.style.color = '#1e3a8a';
                     btn.style.borderColor = '#1e3a8a';
-                    btn.textContent = '🤍 Add to Favorites';
+                    btn.textContent = 'Add to Favorites';
                 }
             } else if (data.error === 'not_logged_in') {
                 window.location.href = 'login.php';

@@ -104,7 +104,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 <!-- Ropani - Aana Builder -->
                 <div style="background: #f8fafc; padding: 12px; border-radius: 8px; border: 1px solid #cbd5e1;">
                     <div style="font-size: 13px; font-weight: 600; color: #1e3a8a; margin-bottom: 8px;">
-                        🇳🇵 Ropani / Aana / Paisa / Daam Builder:
+                        Ropani / Aana / Paisa / Daam Builder:
                     </div>
                     <div style="display: flex; gap: 8px; flex-wrap: wrap;">
                         <input type="number" id="ropani_val" placeholder="Ropani" min="0" style="flex: 1; min-width: 70px;" oninput="updateNepaliLandText()">

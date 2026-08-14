@@ -273,7 +273,7 @@ $activeTab = $_GET['tab'] ?? 'received';
         <h1 class="header-title">Property Inquiries</h1>
 
         <div class="header-right">
-            <a href="favorites.php" class="secondary-btn" style="margin-right: 8px;">❤️ Favorites</a>
+            <a href="favorites.php" class="secondary-btn" style="margin-right: 8px;">Favorites</a>
             <a href="add.php" class="primary-btn">Add Property</a>
         </div>
     </div>
@@ -281,16 +281,16 @@ $activeTab = $_GET['tab'] ?? 'received';
 
 <main class="container">
     <div class="page-title-section">
-        <h2>📬 Manage Inquiries</h2>
+        <h2>Manage Inquiries</h2>
     </div>
 
     <!-- Navigation Tabs -->
     <div class="tab-buttons">
         <a href="inquiries.php?tab=received" class="tab-btn <?= $activeTab === 'received' ? 'active' : '' ?>">
-            📥 Received Inquiries (<?= count($receivedInquiries) ?>)
+            Received Inquiries (<?= count($receivedInquiries) ?>)
         </a>
         <a href="inquiries.php?tab=sent" class="tab-btn <?= $activeTab === 'sent' ? 'active' : '' ?>">
-            📤 Sent Inquiries (<?= count($sentInquiries) ?>)
+            Sent Inquiries (<?= count($sentInquiries) ?>)
         </a>
     </div>
 
@@ -298,7 +298,7 @@ $activeTab = $_GET['tab'] ?? 'received';
     <?php if ($activeTab === 'received'): ?>
         <?php if (empty($receivedInquiries)): ?>
             <div class="empty-box">
-                <div class="empty-box-icon">📬</div>
+                <div class="empty-box-icon"></div>
                 <h3>No received inquiries yet</h3>
                 <p>When potential buyers submit inquiries for your property listings, they will appear here.</p>
                 <a href="add.php" class="primary-btn">List a Property</a>
@@ -325,10 +325,10 @@ $activeTab = $_GET['tab'] ?? 'received';
                             <h3><a href="details.php?id=<?= $propId ?>"><?= $pTitle ?></a> (Rs <?= $pPrice ?>)</h3>
                             
                             <div class="meta-info">
-                                <span>👤 <strong>From:</strong> <?= $senderName ?></span>
-                                <span>✉️ <a href="mailto:<?= $senderEmail ?>"><?= $senderEmail ?></a></span>
+                                <span><strong>From:</strong> <?= $senderName ?></span>
+                                <span><a href="mailto:<?= $senderEmail ?>"><?= $senderEmail ?></a></span>
                                 <?php if ($senderPhone): ?>
-                                    <span>📞 <a href="tel:<?= $senderPhone ?>"><?= $senderPhone ?></a></span>
+                                    <span><a href="tel:<?= $senderPhone ?>"><?= $senderPhone ?></a></span>
                                 <?php endif; ?>
                             </div>
 
@@ -339,7 +339,7 @@ $activeTab = $_GET['tab'] ?? 'received';
                         </div>
 
                         <div class="inquiry-actions">
-                            <span class="inquiry-date">📅 <?= $date ?></span>
+                            <span class="inquiry-date"><?= $date ?></span>
                             <form method="POST" onsubmit="return confirm('Are you sure you want to delete this inquiry?');">
                                 <input type="hidden" name="inquiry_id" value="<?= $inqId ?>">
                                 <button type="submit" name="delete_inquiry" class="delete-inquiry-btn">Delete Inquiry</button>
@@ -354,7 +354,7 @@ $activeTab = $_GET['tab'] ?? 'received';
     <?php else: ?>
         <?php if (empty($sentInquiries)): ?>
             <div class="empty-box">
-                <div class="empty-box-icon">📤</div>
+                <div class="empty-box-icon"></div>
                 <h3>No sent inquiries yet</h3>
                 <p>When you submit an inquiry on a property page, you can track it here.</p>
                 <a href="index.php" class="primary-btn">Browse Properties</a>
@@ -378,8 +378,8 @@ $activeTab = $_GET['tab'] ?? 'received';
                             <h3><a href="details.php?id=<?= $propId ?>"><?= $pTitle ?></a></h3>
                             
                             <div class="meta-info">
-                                <span>📍 <?= $pLocation ?></span>
-                                <span>💰 Rs <?= $pPrice ?></span>
+                                <span><strong>Location:</strong> <?= $pLocation ?></span>
+                                <span><strong>Price:</strong> Rs <?= $pPrice ?></span>
                             </div>
 
                             <div class="inquiry-message">
@@ -389,7 +389,7 @@ $activeTab = $_GET['tab'] ?? 'received';
                         </div>
 
                         <div class="inquiry-actions">
-                            <span class="inquiry-date">📅 <?= $date ?></span>
+                            <span class="inquiry-date"><?= $date ?></span>
                             <form method="POST" onsubmit="return confirm('Are you sure you want to delete this inquiry log?');">
                                 <input type="hidden" name="inquiry_id" value="<?= $inqId ?>">
                                 <button type="submit" name="delete_inquiry" class="delete-inquiry-btn">Remove Log</button>

@@ -109,7 +109,7 @@ $favoritedProperties = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <h1 class="header-title">My Favorites</h1>
 
         <div class="header-right">
-            <a href="inquiries.php" class="secondary-btn" style="margin-right: 8px;">📬 Inquiries</a>
+            <a href="inquiries.php" class="secondary-btn" style="margin-right: 8px;">Inquiries</a>
             <a href="add.php" class="primary-btn">Add Property</a>
             <a href="logout.php" class="secondary-btn" style="margin-left: 8px;">Logout</a>
         </div>
@@ -118,12 +118,12 @@ $favoritedProperties = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 <main class="container">
     <div class="favorites-header">
-        <h2>❤️ Favorited Properties (<?= count($favoritedProperties) ?>)</h2>
+        <h2>Favorited Properties (<?= count($favoritedProperties) ?>)</h2>
     </div>
 
     <?php if (empty($favoritedProperties)): ?>
         <div class="empty-favorites">
-            <div class="empty-favorites-icon">🤍</div>
+            <div class="empty-favorites-icon">&#9825;</div>
             <h3>No favorites saved yet</h3>
             <p>Click the heart icon on any property card to save it to your favorites list.</p>
             <a href="index.php" class="primary-btn">Browse Properties</a>
@@ -144,15 +144,15 @@ $favoritedProperties = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <div class="card-header-wrapper">
                         <img src='uploads/<?= $image ?>' alt='<?= $title ?>'>
                         <button class="favorite-btn favorited" onclick="event.stopPropagation(); toggleFavorite(<?= $id ?>, this);" title="Remove from Favorites">
-                            ❤️
+                            &hearts;
                         </button>
                     </div>
                     <div class='card-content'>
                         <h3><?= $title ?></h3>
-                        <p>📍 <?= $location ?></p>
-                        <p>🏠 <?= $type ?></p>
+                        <p><strong>Location:</strong> <?= $location ?></p>
+                        <p><strong>Type:</strong> <?= $type ?></p>
                         <?php if ($landArea): ?>
-                            <p>📐 <strong>Land:</strong> <?= $landArea ?></p>
+                            <p><strong>Land:</strong> <?= $landArea ?></p>
                         <?php endif; ?>
                         <div class='price'>Rs <?= $price ?></div>
                         

@@ -58,11 +58,11 @@ while ($row = $stmt->fetch()) {
     $landArea = !empty($row['land_area']) ? htmlspecialchars($row['land_area']) : '';
 
     $isFav      = in_array($id, $userFavorites);
-    $heartIcon  = $isFav ? '❤️' : '🤍';
+    $heartIcon  = $isFav ? '&hearts;' : '&#9825;';
     $heartClass = $isFav ? 'favorited' : '';
     $favTitle   = $isFav ? 'Remove from Favorites' : 'Save to Favorites';
 
-    $landAreaHtml = $landArea !== '' ? "<p>📐 <strong>Land:</strong> {$landArea}</p>" : "";
+    $landAreaHtml = $landArea !== '' ? "<p><strong>Land:</strong> {$landArea}</p>" : "";
 
     echo "
     <div class='card' onclick=\"viewProperty({$id})\" style='cursor: pointer;'>
@@ -74,8 +74,8 @@ while ($row = $stmt->fetch()) {
         </div>
         <div class='card-content'>
             <h3>{$title}</h3>
-            <p>📍 {$location}</p>
-            <p>🏠 {$type}</p>
+            <p><strong>Location:</strong> {$location}</p>
+            <p><strong>Type:</strong> {$type}</p>
             {$landAreaHtml}
             <div class='price'>Rs {$price}</div>";
 

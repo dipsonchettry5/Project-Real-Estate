@@ -29,8 +29,8 @@ if (!isset($_SESSION["user_id"])) {
 
         <div class="header-right">
             <?php if (isset($_SESSION["user_id"])): ?>
-                <a href="inquiries.php" class="secondary-btn" style="margin-right: 8px;">📬 Inquiries</a>
-                <a href="favorites.php" class="secondary-btn" style="margin-right: 8px;">❤️ My Favorites</a>
+                <a href="inquiries.php" class="secondary-btn" style="margin-right: 8px;">Inquiries</a>
+                <a href="favorites.php" class="secondary-btn" style="margin-right: 8px;">My Favorites</a>
                 <a href="add.php" class="primary-btn">Add Property</a>
             <?php endif; ?>
         </div>

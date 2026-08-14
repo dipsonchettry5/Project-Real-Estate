@@ -80,11 +80,11 @@ function toggleFavorite(propertyId, btnElement) {
             if (btnElement) {
                 if (data.is_favorite) {
                     btnElement.classList.add('favorited');
-                    btnElement.innerHTML = '❤️';
+                    btnElement.innerHTML = '&hearts;';
                     btnElement.setAttribute('title', 'Remove from Favorites');
                 } else {
                     btnElement.classList.remove('favorited');
-                    btnElement.innerHTML = '🤍';
+                    btnElement.innerHTML = '&#9825;';
                     btnElement.setAttribute('title', 'Save to Favorites');
 
                     const card = btnElement.closest('.card');
