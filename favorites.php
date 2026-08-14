@@ -137,7 +137,9 @@ $favoritedProperties = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 $price    = number_format($row['price']);
                 $image    = htmlspecialchars($row['image']);
                 $id       = intval($row['id']);
-                $landArea = !empty($row['land_area']) ? htmlspecialchars($row['land_area']) : '';
+                $landArea  = !empty($row['land_area']) ? htmlspecialchars($row['land_area']) : '';
+                $roadWidth = !empty($row['road_width']) ? htmlspecialchars($row['road_width']) : '';
+                $furnished = !empty($row['furnished_status']) ? htmlspecialchars($row['furnished_status']) : '';
                 $canManage = isset($_SESSION["user_id"]) && ((int)$row["user_id"] === (int)$_SESSION["user_id"] || ($_SESSION["role"] ?? "") === "admin");
             ?>
                 <div class='card' onclick="viewProperty(<?= $id ?>)" style='cursor: pointer;'>
@@ -153,6 +155,12 @@ $favoritedProperties = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <p><strong>Type:</strong> <?= $type ?></p>
                         <?php if ($landArea): ?>
                             <p><strong>Land:</strong> <?= $landArea ?></p>
+                        <?php endif; ?>
+                        <?php if ($roadWidth): ?>
+                            <p><strong>Road Access:</strong> <?= $roadWidth ?></p>
+                        <?php endif; ?>
+                        <?php if ($furnished): ?>
+                            <p><strong>Furnished:</strong> <?= $furnished ?></p>
                         <?php endif; ?>
                         <div class='price'>Rs <?= $price ?></div>
                         

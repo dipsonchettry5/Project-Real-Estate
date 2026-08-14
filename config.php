@@ -43,6 +43,15 @@ try {
         $pdo->exec("ALTER TABLE properties MODIFY land_area VARCHAR(100) DEFAULT NULL");
     } catch (Exception $ex) {}
 
+    // Ensure properties table has furnished_status and road_width columns
+    try {
+        $pdo->exec("ALTER TABLE properties ADD COLUMN furnished_status VARCHAR(50) DEFAULT NULL");
+    } catch (Exception $ex) {}
+
+    try {
+        $pdo->exec("ALTER TABLE properties ADD COLUMN road_width VARCHAR(100) DEFAULT NULL");
+    } catch (Exception $ex) {}
+
 } catch (PDOException $e) {
     die("Database connection failed");
 }

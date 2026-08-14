@@ -38,6 +38,8 @@ $image = htmlspecialchars($property['image']);
 $createdAt = date("F j, Y", strtotime($property['created_at']));
 $landArea  = htmlspecialchars($property['land_area'] ?? '');
 $builtArea = htmlspecialchars($property['built_area'] ?? '');
+$furnishedStatus = htmlspecialchars($property['furnished_status'] ?? '');
+$roadWidth = htmlspecialchars($property['road_width'] ?? '');
 $bedrooms  = htmlspecialchars($property['bedrooms'] ?? '');
 $bathrooms = htmlspecialchars($property['bathrooms'] ?? '');
 $amenities = htmlspecialchars($property['amenities'] ?? '');
@@ -476,6 +478,18 @@ if (isset($_SESSION["user_id"])) {
                 <div class="meta-item">
                     <span class="meta-label">Built Area</span>
                     <span class="meta-value"><?php echo $builtArea; ?> sq ft</span>
+                </div>
+                <?php endif; ?>
+                <?php if ($roadWidth): ?>
+                <div class="meta-item">
+                    <span class="meta-label">Road Width / Access</span>
+                    <span class="meta-value"><?php echo $roadWidth; ?></span>
+                </div>
+                <?php endif; ?>
+                <?php if ($furnishedStatus): ?>
+                <div class="meta-item">
+                    <span class="meta-label">Furnished Status</span>
+                    <span class="meta-value"><?php echo $furnishedStatus; ?></span>
                 </div>
                 <?php endif; ?>
                 <?php if ($bedrooms): ?>

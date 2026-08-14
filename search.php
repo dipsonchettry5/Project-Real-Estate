@@ -55,14 +55,18 @@ while ($row = $stmt->fetch()) {
     $price    = number_format($row['price']);
     $image    = htmlspecialchars($row['image']);
     $id       = intval($row['id']);
-    $landArea = !empty($row['land_area']) ? htmlspecialchars($row['land_area']) : '';
+    $landArea  = !empty($row['land_area']) ? htmlspecialchars($row['land_area']) : '';
+    $furnished = !empty($row['furnished_status']) ? htmlspecialchars($row['furnished_status']) : '';
+    $road      = !empty($row['road_width']) ? htmlspecialchars($row['road_width']) : '';
 
     $isFav      = in_array($id, $userFavorites);
     $heartIcon  = $isFav ? '&hearts;' : '&#9825;';
     $heartClass = $isFav ? 'favorited' : '';
     $favTitle   = $isFav ? 'Remove from Favorites' : 'Save to Favorites';
 
-    $landAreaHtml = $landArea !== '' ? "<p><strong>Land:</strong> {$landArea}</p>" : "";
+    $landAreaHtml  = $landArea !== '' ? "<p><strong>Land:</strong> {$landArea}</p>" : "";
+    $roadHtml      = $road !== '' ? "<p><strong>Road Access:</strong> {$road}</p>" : "";
+    $furnishedHtml = $furnished !== '' ? "<p><strong>Furnished:</strong> {$furnished}</p>" : "";
 
     echo "
     <div class='card' onclick=\"viewProperty({$id})\" style='cursor: pointer;'>
@@ -77,6 +81,8 @@ while ($row = $stmt->fetch()) {
             <p><strong>Location:</strong> {$location}</p>
             <p><strong>Type:</strong> {$type}</p>
             {$landAreaHtml}
+            {$roadHtml}
+            {$furnishedHtml}
             <div class='price'>Rs {$price}</div>";
 
     $canManage = isset($_SESSION["user_id"]) &&

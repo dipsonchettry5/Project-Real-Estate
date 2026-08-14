@@ -35,6 +35,10 @@ $type = htmlspecialchars($property['type']);
 $price = number_format($property['price']);
 $image = htmlspecialchars($property['image']);
 $createdAt = date("F j, Y", strtotime($property['created_at']));
+$landArea  = htmlspecialchars($property['land_area'] ?? '');
+$builtArea = htmlspecialchars($property['built_area'] ?? '');
+$furnishedStatus = htmlspecialchars($property['furnished_status'] ?? '');
+$roadWidth = htmlspecialchars($property['road_width'] ?? '');
 
 $isFavorited = false;
 if (isset($_SESSION["user_id"])) {
@@ -312,6 +316,30 @@ if (isset($_SESSION["user_id"])) {
                     <span class="meta-label">Property Type</span>
                     <span class="meta-value"><?php echo $type; ?></span>
                 </div>
+                <?php if ($landArea): ?>
+                <div class="meta-item">
+                    <span class="meta-label">Land Area</span>
+                    <span class="meta-value"><?php echo $landArea; ?></span>
+                </div>
+                <?php endif; ?>
+                <?php if ($builtArea): ?>
+                <div class="meta-item">
+                    <span class="meta-label">Built Area</span>
+                    <span class="meta-value"><?php echo $builtArea; ?> sq ft</span>
+                </div>
+                <?php endif; ?>
+                <?php if ($roadWidth): ?>
+                <div class="meta-item">
+                    <span class="meta-label">Road Width / Access</span>
+                    <span class="meta-value"><?php echo $roadWidth; ?></span>
+                </div>
+                <?php endif; ?>
+                <?php if ($furnishedStatus): ?>
+                <div class="meta-item">
+                    <span class="meta-label">Furnished Status</span>
+                    <span class="meta-value"><?php echo $furnishedStatus; ?></span>
+                </div>
+                <?php endif; ?>
                 <div class="meta-item">
                     <span class="meta-label">Posted On</span>
                     <span class="meta-value"><?php echo $createdAt; ?></span>

@@ -35,7 +35,7 @@ if (!$isOwner && !$isAdmin) {
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $stmt = $pdo->prepare(
-        "UPDATE properties SET title=?, location=?, price=?, type=?, bedrooms=?, bathrooms=?, land_area=?, built_area=?, amenities=?, description=? WHERE id=?"
+        "UPDATE properties SET title=?, location=?, price=?, type=?, bedrooms=?, bathrooms=?, land_area=?, built_area=?, furnished_status=?, road_width=?, amenities=?, description=? WHERE id=?"
     );
     $stmt->execute([
         $_POST["title"],
@@ -46,6 +46,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $_POST["bathrooms"] ?: null,
         $_POST["land_area"] ?: null,
         $_POST["built_area"] ?: null,
+        $_POST["furnished_status"] ?: null,
+        $_POST["road_width"] ?: null,
         $_POST["amenities"] ?: null,
         $_POST["description"] ?: null,
         $id
@@ -117,7 +119,19 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
             <div class="form-row">
                 <input type="number" name="built_area" placeholder="Built-up Area (sq ft)" value="<?= htmlspecialchars($p['built_area'] ?? '') ?>" min="0" step="0.01">
+                <input type="text" name="road_width" placeholder="Road Access / Width (e.g. 13 ft, 20 ft pitched)" value="<?= htmlspecialchars($p['road_width'] ?? '') ?>">
             </div>
+
+            <div style="margin-bottom: 16px;">
+                <label style="font-size: 14px; font-weight: 600; color: #0b192c; margin-bottom: 6px; display: block;">Furnished Status</label>
+                <select name="furnished_status" style="width: 100%;">
+                    <option value="">Select Furnished Status</option>
+                    <option value="Full-Furnished" <?= ($p['furnished_status'] ?? '') === 'Full-Furnished' ? 'selected' : '' ?>>Full-Furnished</option>
+                    <option value="Semi-Furnished" <?= ($p['furnished_status'] ?? '') === 'Semi-Furnished' ? 'selected' : '' ?>>Semi-Furnished</option>
+                    <option value="Unfurnished" <?= ($p['furnished_status'] ?? '') === 'Unfurnished' ? 'selected' : '' ?>>Unfurnished</option>
+                </select>
+            </div>
+
             <textarea name="amenities" placeholder="Amenities (e.g., Pool, Parking, Garden, Gym)" rows="2"><?= htmlspecialchars($p['amenities'] ?? '') ?></textarea>
             <textarea name="description" placeholder="Property Description" rows="4"><?= htmlspecialchars($p['description'] ?? '') ?></textarea>
         </fieldset>
