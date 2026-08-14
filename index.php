@@ -9,7 +9,7 @@ if (!isset($_SESSION["user_id"])) {
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Real Estate Listings</title>
+    <title>Sapanko Ghar</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -25,10 +25,12 @@ if (!isset($_SESSION["user_id"])) {
             <?php endif; ?>
         </div>
 
-        <h1 class="header-title">Real Estate Listings</h1>
+        <h1 class="header-title">Sapanko Ghar</h1>
 
         <div class="header-right">
             <?php if (isset($_SESSION["user_id"])): ?>
+                <a href="inquiries.php" class="secondary-btn" style="margin-right: 8px;">📬 Inquiries</a>
+                <a href="favorites.php" class="secondary-btn" style="margin-right: 8px;">❤️ My Favorites</a>
                 <a href="add.php" class="primary-btn">Add Property</a>
             <?php endif; ?>
         </div>

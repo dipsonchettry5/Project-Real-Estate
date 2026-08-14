@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Real Estate Management System</title>
+    <title>Sapanko Ghar</title>
     <link rel="stylesheet" href="landing.css">
 </head>
 <body>
@@ -10,7 +10,7 @@
 <header class="hero">
 
     <nav class="navbar">
-        <div class="logo"> RealEstatePro</div>
+        <div class="logo">🏠 Sapanko Ghar</div>
 
         <div class="nav-links">
             <a href="index.php">Properties</a>
@@ -24,7 +24,7 @@
 
         <p>
             Buy, Sell and Rent Properties Easily with
-            Our Real Estate Management System.
+            Sapanko Ghar.
         </p>
 
         <a href="index.php" class="primary-btn">
@@ -78,7 +78,7 @@
 </section>
 
 <footer class="footer">
-    <p>© 2026 Real Estate Management System | BCA 4th Semester Project</p>
+    <p>© 2026 Sapanko Ghar | BCA 4th Semester Project</p>
 </footer>
 
 </body>

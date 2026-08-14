@@ -6,29 +6,34 @@ $error = "";
 $success = "";
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    $username = trim($_POST["username"] ?? "");
+    $password = $_POST["password"] ?? "";
+
     // Validate inputs
-    if (strlen($_POST["username"]) < 3) {
-        $error = "Username must be at least 3 characters.";
-    } elseif (strlen($_POST["password"]) < 6) {
+    if (strlen($username) < 3) {
+        $error = "Username/Email must be at least 3 characters.";
+    } elseif (!filter_var($username, FILTER_VALIDATE_EMAIL) || !preg_match('/@gmail\.com$/i', $username)) {
+        $error = "Registration requires a valid Gmail address (e.g. user@gmail.com).";
+    } elseif (strlen($password) < 6) {
         $error = "Password must be at least 6 characters.";
     } else {
-        // Check if username exists
+        // Check if email/username exists
         $stmt = $pdo->prepare("SELECT id FROM users WHERE username=?");
-        $stmt->execute([$_POST["username"]]);
+        $stmt->execute([$username]);
         
         if ($stmt->fetch()) {
-            $error = "Username already exists.";
+            $error = "An account with this Gmail address already exists.";
         } else {
-            // Determine role based on registration type
-            $role = $_POST["register_type"] ?? "user";
+            // Determine role: always "user" for public registration
+            $role = "user";
             
             // Register new user
             $stmt = $pdo->prepare(
                 "INSERT INTO users (username, password, role) VALUES (?, ?, ?)"
             );
             $stmt->execute([
-                $_POST["username"],
-                password_hash($_POST["password"], PASSWORD_BCRYPT),
+                $username,
+                password_hash($password, PASSWORD_BCRYPT),
                 $role
             ]);
             
@@ -53,7 +58,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #0b192c 0%, #1e3a8a 100%);
             min-height: 100vh;
             display: flex;
             justify-content: center;
@@ -64,7 +69,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         .form-card {
             background: white;
             border-radius: 12px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 20px 60px rgba(11, 25, 44, 0.4);
             padding: 40px;
             width: 100%;
             max-width: 400px;
@@ -84,37 +89,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         .form-card h2 {
             text-align: center;
-            color: #333;
+            color: #0b192c;
             margin-bottom: 30px;
             font-size: 28px;
-            font-weight: 600;
-        }
-
-        .role-selection {
-            margin-bottom: 25px;
-            padding: 15px;
-            background: #f8f9fa;
-            border-radius: 8px;
-            border: 1px solid #e0e0e0;
-        }
-
-        .role-selection label {
-            display: inline-block;
-            margin-right: 20px;
-            cursor: pointer;
-            font-size: 14px;
-            color: #555;
-            user-select: none;
-        }
-
-        .role-selection label:hover {
-            color: #667eea;
-        }
-
-        .role-selection input[type="radio"] {
-            margin-right: 8px;
-            cursor: pointer;
-            accent-color: #667eea;
+            font-weight: 700;
         }
 
         form {
@@ -124,9 +102,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         }
 
         form input[type="text"],
+        form input[type="email"],
         form input[type="password"] {
             padding: 12px 15px;
-            border: 2px solid #e0e0e0;
+            border: 2px solid #cbd5e1;
             border-radius: 8px;
             font-size: 14px;
             font-family: inherit;
@@ -134,19 +113,20 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         }
 
         form input[type="text"]:focus,
+        form input[type="email"]:focus,
         form input[type="password"]:focus {
             outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            border-color: #1e3a8a;
+            box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.15);
         }
 
         form input::placeholder {
-            color: #999;
+            color: #94a3b8;
         }
 
         .primary-btn {
             padding: 12px 20px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #0b192c 0%, #1e3a8a 100%);
             color: white;
             border: none;
             border-radius: 8px;
@@ -159,7 +139,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         .primary-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+            box-shadow: 0 10px 25px rgba(30, 58, 138, 0.4);
         }
 
         .primary-btn:active {
@@ -168,9 +148,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         .error-message {
             padding: 12px 15px;
-            background-color: #fee;
-            color: #c33;
-            border: 1px solid #fcc;
+            background-color: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #fca5a5;
             border-radius: 8px;
             font-size: 14px;
             margin-top: 10px;
@@ -179,9 +159,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         .success-message {
             padding: 12px 15px;
-            background-color: #efe;
-            color: #3a3;
-            border: 1px solid #cfc;
+            background-color: #f0fdf4;
+            color: #166534;
+            border: 1px solid #bbf7d0;
             border-radius: 8px;
             font-size: 14px;
             margin-top: 10px;
@@ -189,7 +169,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         }
 
         .success-message a {
-            color: #3a3;
+            color: #166534;
             font-weight: 600;
             text-decoration: none;
         }
@@ -218,19 +198,19 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         .form-card p {
             text-align: center;
             margin-top: 20px;
-            color: #666;
+            color: #64748b;
             font-size: 14px;
         }
 
         .form-card a {
-            color: #667eea;
+            color: #1e3a8a;
             text-decoration: none;
             font-weight: 600;
             transition: color 0.3s ease;
         }
 
         .form-card a:hover {
-            color: #764ba2;
+            color: #0b192c;
             text-decoration: underline;
         }
 
@@ -256,21 +236,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 <div class="form-card">
     <h2>Create Account</h2>
     
-    <!-- Registration Type -->
-    <div class="role-selection">
-        <label>
-            <input type="radio" name="register_type" value="user" checked onchange="document.getElementById('register_type').value='user'"> 
-            Register as User
-        </label>
-        <label>
-            <input type="radio" name="register_type" value="admin" onchange="document.getElementById('register_type').value='admin'"> 
-            Register as Admin
-        </label>
-    </div>
-    
     <form method="post">
-        <input type="hidden" name="register_type" id="register_type" value="user">
-        <input type="text" name="username" placeholder="Username" required>
+        <input type="email" name="username" placeholder="Gmail Address (e.g. user@gmail.com)" required>
         <input type="password" name="password" placeholder="Password" required>
         <button type="submit" class="primary-btn">Register</button>
         <?php if ($error): ?>

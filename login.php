@@ -42,7 +42,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #0b192c 0%, #1e3a8a 100%);
             min-height: 100vh;
             display: flex;
             justify-content: center;
@@ -53,7 +53,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         .form-card {
             background: white;
             border-radius: 12px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 20px 60px rgba(11, 25, 44, 0.4);
             padding: 40px;
             width: 100%;
             max-width: 400px;
@@ -73,18 +73,18 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         .form-card h2 {
             text-align: center;
-            color: #333;
+            color: #0b192c;
             margin-bottom: 30px;
             font-size: 28px;
-            font-weight: 600;
+            font-weight: 700;
         }
 
         .role-selection {
             margin-bottom: 25px;
             padding: 15px;
-            background: #f8f9fa;
+            background: #f8fafc;
             border-radius: 8px;
-            border: 1px solid #e0e0e0;
+            border: 1px solid #e2e8f0;
         }
 
         .role-selection label {
@@ -92,18 +92,18 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             margin-right: 20px;
             cursor: pointer;
             font-size: 14px;
-            color: #555;
+            color: #334155;
             user-select: none;
         }
 
         .role-selection label:hover {
-            color: #667eea;
+            color: #1e3a8a;
         }
 
         .role-selection input[type="radio"] {
             margin-right: 8px;
             cursor: pointer;
-            accent-color: #667eea;
+            accent-color: #1e3a8a;
         }
 
         form {
@@ -115,7 +115,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         form input[type="text"],
         form input[type="password"] {
             padding: 12px 15px;
-            border: 2px solid #e0e0e0;
+            border: 2px solid #cbd5e1;
             border-radius: 8px; 
             font-size: 14px;
             font-family: inherit;
@@ -125,17 +125,17 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         form input[type="text"]:focus,
         form input[type="password"]:focus {
             outline: none;
-            border-color: #f6f6fa;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            border-color: #1e3a8a;
+            box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.15);
         }
 
         form input::placeholder {
-            color: #999;
+            color: #94a3b8;
         }
 
         .primary-btn {
             padding: 12px 20px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #0b192c 0%, #1e3a8a 100%);
             color: white;
             border: none;
             border-radius: 8px;
@@ -148,7 +148,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         .primary-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+            box-shadow: 0 10px 25px rgba(30, 58, 138, 0.4);
         }
 
         .primary-btn:active {
@@ -157,9 +157,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         .error-message {
             padding: 12px 15px;
-            background-color: #fee;
-            color: #c33;
-            border: 1px solid #fcc;
+            background-color: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #fca5a5;
             border-radius: 8px;
             font-size: 14px;
             margin-top: 10px;
@@ -175,19 +175,19 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         .form-card p {
             text-align: center;
             margin-top: 20px;
-            color: #666;
+            color: #64748b;
             font-size: 14px;
         }
 
         .form-card a {
-            color: #667eea;
+            color: #1e3a8a;
             text-decoration: none;
             font-weight: 600;
             transition: color 0.3s ease;
         }
 
         .form-card a:hover {
-            color: #764ba2;
+            color: #0b192c;
             text-decoration: underline;
         }
 
@@ -227,7 +227,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     <form method="post">
         <input type="hidden" name="login_type" id="login_type" value="user">
-        <input type="text" name="username" placeholder="Username" required>
+        <input type="text" name="username" placeholder="Username / Gmail" required>
         <input type="password" name="password" placeholder="Password" required>
         <button type="submit" class="primary-btn">Login</button>
         <?php if ($error): ?>

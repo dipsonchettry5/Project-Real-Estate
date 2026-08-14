@@ -36,6 +36,12 @@ $type = htmlspecialchars($property['type']);
 $price = number_format($property['price']);
 $image = htmlspecialchars($property['image']);
 $createdAt = date("F j, Y", strtotime($property['created_at']));
+$landArea  = htmlspecialchars($property['land_area'] ?? '');
+$builtArea = htmlspecialchars($property['built_area'] ?? '');
+$bedrooms  = htmlspecialchars($property['bedrooms'] ?? '');
+$bathrooms = htmlspecialchars($property['bathrooms'] ?? '');
+$amenities = htmlspecialchars($property['amenities'] ?? '');
+$description = htmlspecialchars($property['description'] ?? '');
 
 // Inquiry flash data (set by send_inquiry.php)
 $inquirySuccess = $_SESSION['inquiry_success'] ?? null;
@@ -45,12 +51,20 @@ unset($_SESSION['inquiry_success'], $_SESSION['inquiry_errors'], $_SESSION['inqu
 
 // Reopen the modal automatically if the last submission had errors
 $reopenModal = !empty($inquiryErrors) ? 'true' : 'false';
+
+// Check if property is favorited by logged-in user
+$isFavorited = false;
+if (isset($_SESSION["user_id"])) {
+    $favStmt = $pdo->prepare("SELECT id FROM favorites WHERE user_id = ? AND property_id = ?");
+    $favStmt->execute([(int)$_SESSION["user_id"], $id]);
+    $isFavorited = (bool)$favStmt->fetch();
+}
 ?>
 
 <!DOCTYPE html>
 <html>
 <head>
-    <title><?php echo $title; ?> - Real Estate</title>
+    <title><?php echo $title; ?> - Sapanko Ghar</title>
     <link rel="stylesheet" href="css/style.css">
     <style>
         .details-container {
@@ -452,6 +466,30 @@ $reopenModal = !empty($inquiryErrors) ? 'true' : 'false';
                     <span class="meta-label">Property Type</span>
                     <span class="meta-value"><?php echo $type; ?></span>
                 </div>
+                <?php if ($landArea): ?>
+                <div class="meta-item">
+                    <span class="meta-label">Land Area</span>
+                    <span class="meta-value"><?php echo $landArea; ?></span>
+                </div>
+                <?php endif; ?>
+                <?php if ($builtArea): ?>
+                <div class="meta-item">
+                    <span class="meta-label">Built Area</span>
+                    <span class="meta-value"><?php echo $builtArea; ?> sq ft</span>
+                </div>
+                <?php endif; ?>
+                <?php if ($bedrooms): ?>
+                <div class="meta-item">
+                    <span class="meta-label">Bedrooms</span>
+                    <span class="meta-value"><?php echo $bedrooms; ?></span>
+                </div>
+                <?php endif; ?>
+                <?php if ($bathrooms): ?>
+                <div class="meta-item">
+                    <span class="meta-label">Bathrooms</span>
+                    <span class="meta-value"><?php echo $bathrooms; ?></span>
+                </div>
+                <?php endif; ?>
                 <div class="meta-item">
                     <span class="meta-label">Posted On</span>
                     <span class="meta-value"><?php echo $createdAt; ?></span>
@@ -464,7 +502,9 @@ $reopenModal = !empty($inquiryErrors) ? 'true' : 'false';
 
             <div class="action-buttons">
                 <button class="btn-contact" onclick="openInquiryModal()">✉ Send Inquiry</button>
-                <button class="btn-favorite" onclick="toggleFavorite()">♥ Add to Favorites</button>
+                <button class="btn-favorite <?php echo $isFavorited ? 'favorited' : ''; ?>" id="fav-btn-details" onclick="toggleFavoriteDetails(<?php echo $id; ?>)" style="<?php echo $isFavorited ? 'color: #e53e3e; border-color: #feb2b2;' : ''; ?>">
+                    <?php echo $isFavorited ? '❤️ Favorited' : '🤍 Add to Favorites'; ?>
+                </button>
             </div>
 
             <?php if (isset($_SESSION["user_id"]) && ((int)$property["user_id"] === (int)$_SESSION["user_id"] || ($_SESSION["role"] ?? "") === "admin")): ?>
@@ -561,15 +601,35 @@ $reopenModal = !empty($inquiryErrors) ? 'true' : 'false';
         openInquiryModal();
     }
 
-    function toggleFavorite() {
-        const btn = event.target;
-        if (btn.style.color === 'rgb(244, 67, 54)') {
-            btn.style.color = '#667eea';
-            btn.textContent = '♥ Add to Favorites';
-        } else {
-            btn.style.color = '#f44336';
-            btn.textContent = '♥ Added to Favorites';
-        }
+    function toggleFavoriteDetails(propertyId) {
+        const btn = document.getElementById('fav-btn-details');
+        const formData = new FormData();
+        formData.append('property_id', propertyId);
+
+        fetch('toggle_favorite.php', {
+            method: 'POST',
+            body: formData,
+            headers: { 'X-Requested-With': 'XMLHttpRequest' }
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                if (data.is_favorite) {
+                    btn.classList.add('favorited');
+                    btn.style.color = '#e53e3e';
+                    btn.style.borderColor = '#feb2b2';
+                    btn.textContent = '❤️ Favorited';
+                } else {
+                    btn.classList.remove('favorited');
+                    btn.style.color = '#1e3a8a';
+                    btn.style.borderColor = '#1e3a8a';
+                    btn.textContent = '🤍 Add to Favorites';
+                }
+            } else if (data.error === 'not_logged_in') {
+                window.location.href = 'login.php';
+            }
+        })
+        .catch(err => console.error(err));
     }
 </script>
 

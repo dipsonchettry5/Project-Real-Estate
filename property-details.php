@@ -35,12 +35,19 @@ $type = htmlspecialchars($property['type']);
 $price = number_format($property['price']);
 $image = htmlspecialchars($property['image']);
 $createdAt = date("F j, Y", strtotime($property['created_at']));
+
+$isFavorited = false;
+if (isset($_SESSION["user_id"])) {
+    $favStmt = $pdo->prepare("SELECT id FROM favorites WHERE user_id = ? AND property_id = ?");
+    $favStmt->execute([(int)$_SESSION["user_id"], $id]);
+    $isFavorited = (bool)$favStmt->fetch();
+}
 ?>
 
 <!DOCTYPE html>
 <html>
 <head>
-    <title><?php echo $title; ?> - Real Estate</title>
+    <title><?php echo $title; ?> - Sapanko Ghar</title>
     <link rel="stylesheet" href="css/style.css">
     <style>
         .details-container {
@@ -317,7 +324,9 @@ $createdAt = date("F j, Y", strtotime($property['created_at']));
 
             <div class="action-buttons">
                
-                <button class="btn-favorite" onclick="toggleFavorite()">♥ Add to Favorites</button>
+                <button class="btn-favorite <?php echo $isFavorited ? 'favorited' : ''; ?>" id="fav-btn-details" onclick="toggleFavoriteDetails(<?php echo $id; ?>)" style="<?php echo $isFavorited ? 'color: #e53e3e; border-color: #feb2b2;' : ''; ?>">
+                    <?php echo $isFavorited ? '❤️ Favorited' : '🤍 Add to Favorites'; ?>
+                </button>
             </div>
             <div class="action-buttons">
                
@@ -350,17 +359,35 @@ $createdAt = date("F j, Y", strtotime($property['created_at']));
 </main>
 
 <script>
-   
+    function toggleFavoriteDetails(propertyId) {
+        const btn = document.getElementById('fav-btn-details');
+        const formData = new FormData();
+        formData.append('property_id', propertyId);
 
-    function toggleFavorite() {
-        const btn = event.target;
-        if (btn.style.color === 'rgb(244, 67, 54)') {
-            btn.style.color = '#667eea';
-            btn.textContent = '♥ Add to Favorites';
-        } else {
-            btn.style.color = '#f44336';
-            btn.textContent = '♥ Added to Favorites';
-        }
+        fetch('toggle_favorite.php', {
+            method: 'POST',
+            body: formData,
+            headers: { 'X-Requested-With': 'XMLHttpRequest' }
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                if (data.is_favorite) {
+                    btn.classList.add('favorited');
+                    btn.style.color = '#e53e3e';
+                    btn.style.borderColor = '#feb2b2';
+                    btn.textContent = '❤️ Favorited';
+                } else {
+                    btn.classList.remove('favorited');
+                    btn.style.color = '#1e3a8a';
+                    btn.style.borderColor = '#1e3a8a';
+                    btn.textContent = '🤍 Add to Favorites';
+                }
+            } else if (data.error === 'not_logged_in') {
+                window.location.href = 'login.php';
+            }
+        })
+        .catch(err => console.error(err));
     }
 </script>
 

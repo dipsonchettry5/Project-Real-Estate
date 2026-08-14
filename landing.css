@@ -1,15 +1,15 @@
 
 
 :root {
-  /* Color Palette - Professional & Warm */
-  --primary: #1a3a52;      /* Deep navy - trust & stability */
-  --accent: #d4622b;       /* Warm terracotta - energy & warmth */
-  --accent-light: #f5e6d3; /* Cream - approachability */
-  --success: #2d9c78;      /* Emerald - positive action */
-  --text-dark: #2d3436;    /* Near-black for readability */
-  --text-light: #636e72;   /* Medium gray */
-  --bg-light: #f8f9fa;     /* Off-white background */
-  --border-color: #e8eaed; /* Subtle dividers */
+  /* Color Palette - Navy Blue & Crisp White */
+  --primary: #0b192c;      /* Deep rich navy */
+  --accent: #1e3a8a;       /* Royal navy blue accent */
+  --accent-light: #eff6ff; /* Soft ice blue background */
+  --success: #16a34a;      /* Emerald action */
+  --text-dark: #0f172a;    /* Deep navy dark text */
+  --text-light: #475569;   /* Slate gray */
+  --bg-light: #f8fafc;     /* Clean off-white */
+  --border-color: #e2e8f0; /* Soft border */
 
   /* Typography Scale */
   --font-display: 'Georgia', 'Times New Roman', serif;

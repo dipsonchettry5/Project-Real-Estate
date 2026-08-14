@@ -38,10 +38,11 @@ if (!$stmt->fetch()) {
 }
 
 // Store the inquiry
+$userId = $_SESSION['user_id'] ?? null;
 $stmt = $pdo->prepare(
-    "INSERT INTO inquiries (property_id, name, email, phone, message) VALUES (?, ?, ?, ?, ?)"
+    "INSERT INTO inquiries (user_id, property_id, name, email, phone, message) VALUES (?, ?, ?, ?, ?, ?)"
 );
-$stmt->execute([$propertyId, $name, $email, $phone, $message]);
+$stmt->execute([$userId, $propertyId, $name, $email, $phone, $message]);
 
 $_SESSION['inquiry_success'] = "Your inquiry has been sent. The agent will contact you soon.";
 header("Location: details.php?id=" . $propertyId);

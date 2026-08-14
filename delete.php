@@ -22,8 +22,12 @@ if (!$p) {
     exit;
 }
 
-$isOwner = (int)$p["user_id"] === (int)$_SESSION["user_id"];
+$ownerId = isset($p["user_id"]) && $p["user_id"] !== null ? (int)$p["user_id"] : 0;
+$currentUserId = (int)$_SESSION["user_id"];
 $isAdmin = ($_SESSION["role"] ?? "") === "admin";
+
+$isOwner = ($ownerId > 0 && $ownerId === $currentUserId);
+
 if (!$isOwner && !$isAdmin) {
     header("Location: index.php");
     exit;

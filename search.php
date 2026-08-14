@@ -38,6 +38,13 @@ if ($max !== '') {
     $params[] = intval($max);
 }
 
+$userFavorites = [];
+if ($userId) {
+    $favStmt = $pdo->prepare("SELECT property_id FROM favorites WHERE user_id = ?");
+    $favStmt->execute([$userId]);
+    $userFavorites = $favStmt->fetchAll(PDO::FETCH_COLUMN);
+}
+
 $stmt = $pdo->prepare($sql);
 $stmt->execute($params);
 
@@ -48,14 +55,28 @@ while ($row = $stmt->fetch()) {
     $price    = number_format($row['price']);
     $image    = htmlspecialchars($row['image']);
     $id       = intval($row['id']);
+    $landArea = !empty($row['land_area']) ? htmlspecialchars($row['land_area']) : '';
+
+    $isFav      = in_array($id, $userFavorites);
+    $heartIcon  = $isFav ? '❤️' : '🤍';
+    $heartClass = $isFav ? 'favorited' : '';
+    $favTitle   = $isFav ? 'Remove from Favorites' : 'Save to Favorites';
+
+    $landAreaHtml = $landArea !== '' ? "<p>📐 <strong>Land:</strong> {$landArea}</p>" : "";
 
     echo "
     <div class='card' onclick=\"viewProperty({$id})\" style='cursor: pointer;'>
-        <img src='uploads/{$image}' alt='{$title}'>
+        <div class='card-header-wrapper'>
+            <img src='uploads/{$image}' alt='{$title}'>
+            <button class='favorite-btn {$heartClass}' onclick='event.stopPropagation(); toggleFavorite({$id}, this);' title='{$favTitle}'>
+                {$heartIcon}
+            </button>
+        </div>
         <div class='card-content'>
             <h3>{$title}</h3>
-            <p>{$location}</p>
-            <p>{$type}</p>
+            <p>📍 {$location}</p>
+            <p>🏠 {$type}</p>
+            {$landAreaHtml}
             <div class='price'>Rs {$price}</div>";
 
     $canManage = isset($_SESSION["user_id"]) &&
@@ -70,7 +91,7 @@ while ($row = $stmt->fetch()) {
     } else {
         echo "
             <div style='text-align: center; margin-top: 10px;'>
-                <a class='view-details-btn' href='details.php?id={$id}' onclick='event.stopPropagation();' style='display: inline-block; background: #667eea; color: white; padding: 8px 20px; border-radius: 5px; text-decoration: none; font-size: 14px; font-weight: bold;'>View Details</a>
+                <a class='view-details-btn' href='details.php?id={$id}' onclick='event.stopPropagation();' style='display: inline-block; background: #0b192c; color: white; padding: 8px 20px; border-radius: 6px; text-decoration: none; font-size: 14px; font-weight: bold;'>View Details</a>
             </div>";
     }
 

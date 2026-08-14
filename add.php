@@ -90,8 +90,28 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 <input type="number" name="bedrooms" placeholder="Bedrooms" min="0" step="1">
                 <input type="number" name="bathrooms" placeholder="Bathrooms" min="0" step="0.5">
             </div>
+
+            <div style="margin-bottom: 16px;">
+                <label style="font-size: 14px; font-weight: 600; color: #0b192c; margin-bottom: 6px; display: block;">
+                    Land Area (Nepali & Standard Units)
+                </label>
+                <input type="text" id="land_area" name="land_area" placeholder="e.g. 4 Aana, 1 Ropani 2 Aana, 10 Katha, 1200 Sq Ft" style="width: 100%; margin-bottom: 8px;">
+
+                <!-- Ropani - Aana Builder -->
+                <div style="background: #f8fafc; padding: 12px; border-radius: 8px; border: 1px solid #cbd5e1;">
+                    <div style="font-size: 13px; font-weight: 600; color: #1e3a8a; margin-bottom: 8px;">
+                        🇳🇵 Ropani / Aana / Paisa / Daam Builder:
+                    </div>
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                        <input type="number" id="ropani_val" placeholder="Ropani" min="0" style="flex: 1; min-width: 70px;" oninput="updateNepaliLandText()">
+                        <input type="number" id="aana_val" placeholder="Aana" min="0" max="16" step="0.25" style="flex: 1; min-width: 70px;" oninput="updateNepaliLandText()">
+                        <input type="number" id="paisa_val" placeholder="Paisa" min="0" max="4" step="0.25" style="flex: 1; min-width: 70px;" oninput="updateNepaliLandText()">
+                        <input type="number" id="daam_val" placeholder="Daam" min="0" max="4" step="0.25" style="flex: 1; min-width: 70px;" oninput="updateNepaliLandText()">
+                    </div>
+                </div>
+            </div>
+
             <div class="form-row">
-                <input type="number" name="land_area" placeholder="Land Area (sq ft)" min="0" step="0.01">
                 <input type="number" name="built_area" placeholder="Built-up Area (sq ft)" min="0" step="0.01">
             </div>
             <textarea name="amenities" placeholder="Amenities (e.g., Pool, Parking, Garden, Gym)" rows="2"></textarea>
@@ -105,5 +125,24 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     </form>
 </div>
 </main>
+
+<script>
+    function updateNepaliLandText() {
+        const r = parseFloat(document.getElementById('ropani_val').value) || 0;
+        const a = parseFloat(document.getElementById('aana_val').value) || 0;
+        const p = parseFloat(document.getElementById('paisa_val').value) || 0;
+        const d = parseFloat(document.getElementById('daam_val').value) || 0;
+
+        let parts = [];
+        if (r > 0) parts.push(r + ' Ropani');
+        if (a > 0) parts.push(a + ' Aana');
+        if (p > 0) parts.push(p + ' Paisa');
+        if (d > 0) parts.push(d + ' Daam');
+
+        if (parts.length > 0) {
+            document.getElementById('land_area').value = parts.join(' ');
+        }
+    }
+</script>
 </body>
 </html>
