@@ -22,6 +22,13 @@ if (!$property) {
     exit;
 }
 
+$isOwner = isset($_SESSION["user_id"]) && (int)$property["user_id"] === (int)$_SESSION["user_id"];
+$isAdmin = ($_SESSION["role"] ?? "") === "admin";
+if ($property["status"] !== "approved" && !$isOwner && !$isAdmin) {
+    header("Location: index.php");
+    exit;
+}
+
 // Prepare data
 $title = htmlspecialchars($property['title']);
 $location = htmlspecialchars($property['location']);

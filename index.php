@@ -33,6 +33,11 @@ require "config.php";
 </header>
 
 <main class="container">
+    <?php if (isset($_GET["submitted"])): ?>
+    <div style="background:#e7f7ea;border:1px solid #4CAF50;color:#2e7d32;padding:14px 18px;border-radius:6px;margin:20px 0;">
+        Your listing was submitted and is awaiting admin approval. It will appear here once approved.
+    </div>
+<?php endif; ?>
 
     <section class="filter-panel">
 

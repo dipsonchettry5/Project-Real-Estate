@@ -7,8 +7,19 @@ $type     = $_GET['type']     ?? '';
 $min      = $_GET['min_price'] ?? '';
 $max      = $_GET['max_price'] ?? '';
 
-$sql    = "SELECT * FROM properties WHERE 1";
-$params = [];
+$isAdmin = ($_SESSION["role"] ?? "") === "admin";
+$userId  = $_SESSION["user_id"] ?? null;
+
+if ($isAdmin) {
+    $sql    = "SELECT * FROM properties WHERE status = 'approved'";
+    $params = [];
+} elseif ($userId) {
+    $sql    = "SELECT * FROM properties WHERE (status = 'approved' OR user_id = ?)";
+    $params = [$userId];
+} else {
+    $sql    = "SELECT * FROM properties WHERE status = 'approved'";
+    $params = [];
+}
 
 if ($location !== '') {
     $sql     .= " AND location LIKE ?";

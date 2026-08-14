@@ -19,10 +19,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $target = __DIR__ . "/uploads/" . $filename;
 
         if (move_uploaded_file($_FILES["image"]["tmp_name"], $target)) {
-            $stmt = $pdo->prepare(
-                "INSERT INTO properties (user_id, title, location, price, type, image, bedrooms, bathrooms, land_area, built_area, amenities, description)
-                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
-            );
+           $stmt = $pdo->prepare(
+    "INSERT INTO properties (user_id, status, title, location, price, type, image, bedrooms, bathrooms, land_area, built_area, amenities, description)
+     VALUES (?, 'pending', ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
+);
             $stmt->execute([
                 $_SESSION["user_id"],
                 $_POST["title"],
@@ -38,7 +38,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 $_POST["description"] ?: null
             ]);
 
-            header("Location: index.php");
+            header("Location: index.php?submitted=1");
             exit;
         } else {
             $error = "Failed to upload image. Make sure the uploads/ folder exists and is writable.";

@@ -8,11 +8,10 @@ if (!isset($_SESSION['user_id']) || !isset($_SESSION['username'])) {
     exit();
 }
 
-/* // Only allow admin user
-if ($_SESSION['username'] !== 'admin') {
+if (($_SESSION['role'] ?? '') !== 'admin') {
     header("Location: index.php");
     exit();
-} */
+}
 
 // Get statistics
 $propertyCount = $pdo->query("SELECT COUNT(*) FROM properties")->fetchColumn();
@@ -37,6 +36,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         header("Location: admin.php");
         exit();
     }
+    if (isset($_POST['approve_property'])) {
+    $id = $_POST['property_id'];
+    $pdo->prepare("UPDATE properties SET status = 'approved', rejection_reason = NULL WHERE id = ?")->execute([$id]);
+    header("Location: admin.php#properties");
+    exit();
+}
+if (isset($_POST['reject_property'])) {
+    $id = $_POST['property_id'];
+    $reason = trim($_POST['rejection_reason'] ?? '');
+    $pdo->prepare("UPDATE properties SET status = 'rejected', rejection_reason = ? WHERE id = ?")
+        ->execute([$reason !== '' ? $reason : null, $id]);
+    header("Location: admin.php#properties");
+    exit();
+}
     if (isset($_POST['delete_user'])) {
         $id = $_POST['user_id'];
         if ($id != 1) { // Don't allow deleting admin account
@@ -766,14 +779,27 @@ $typeDistribution = $pdo->query("
                                             <td class="price">$<?php echo number_format($prop['price'], 0); ?></td>
                                             <td><?php echo date('M d, Y', strtotime($prop['created_at'])); ?></td>
                                             <td>
-                                                <div class="action-buttons">
-                                                    <a href="edit.php?id=<?php echo $prop['id']; ?>" class="btn btn-edit">Edit</a>
-                                                    <form method="POST" style="display: inline;" onsubmit="return confirm('Are you sure you want to delete this property?');">
-                                                        <input type="hidden" name="property_id" value="<?php echo $prop['id']; ?>">
-                                                        <button type="submit" name="delete_property" class="btn btn-delete">Delete</button>
-                                                    </form>
-                                                </div>
-                                            </td>
+    <div class="action-buttons">
+        <?php if ($prop['status'] !== 'approved'): ?>
+            <form method="POST" style="display: inline;">
+                <input type="hidden" name="property_id" value="<?php echo $prop['id']; ?>">
+                <button type="submit" name="approve_property" class="btn btn-view">Approve</button>
+            </form>
+        <?php endif; ?>
+        <?php if ($prop['status'] !== 'rejected'): ?>
+            <form method="POST" style="display: inline;" onsubmit="const r = prompt('Reason for rejecting this listing (optional):'); if (r === null) return false; this.rejection_reason.value = r;">
+                <input type="hidden" name="property_id" value="<?php echo $prop['id']; ?>">
+                <input type="hidden" name="rejection_reason" value="">
+                <button type="submit" name="reject_property" class="btn btn-delete">Reject</button>
+            </form>
+        <?php endif; ?>
+        <a href="edit.php?id=<?php echo $prop['id']; ?>" class="btn btn-edit">Edit</a>
+        <form method="POST" style="display: inline;" onsubmit="return confirm('Are you sure you want to delete this property?');">
+            <input type="hidden" name="property_id" value="<?php echo $prop['id']; ?>">
+            <button type="submit" name="delete_property" class="btn btn-delete">Delete</button>
+        </form>
+    </div>
+</td>
                                         </tr>
                                     <?php endforeach; ?>
                                 </tbody>
